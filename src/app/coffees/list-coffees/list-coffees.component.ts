@@ -11,6 +11,8 @@ import { CoffeesService } from '../coffees.service';
 export class ListCoffeesComponent implements OnInit {
 
   coffes: Array<Coffee>=[];
+  totalCoffeesOrigen: number = 0;
+  totalCoffeesBlend: number = 0;
 
   constructor(private coffeesService: CoffeesService) { }
 
@@ -19,6 +21,17 @@ export class ListCoffeesComponent implements OnInit {
   }
 
   getCoffes(): void{
-      this.coffeesService.getCoffes().subscribe((data)=>{this.coffes=data;});
+      this.coffeesService.getCoffes().subscribe((data)=>{
+        this.coffes=data;
+        this.contarTipos();
+      });
+
+  }
+
+  contarTipos():void{
+    for (let i = 0; i < this.coffes.length; i++) {
+      if(this.coffes[i].tipo==="Blend"){this.totalCoffeesOrigen++;}
+      if(this.coffes[i].tipo==="Café de Origen"){this.totalCoffeesBlend++;}
+    }
   }
 }
